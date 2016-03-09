@@ -1,0 +1,59 @@
+# set default Language
+DefaultLanguage en
+
+# Default Character Set
+AddDefaultCharset utf-8
+
+# Set directory index
+DirectoryIndex index.html
+
+# Disallow directory listing
+Options All -Indexes
+
+# Off server signature
+ServerSignature Off
+
+# Spelling checker
+<IfModule mod_speling.c>
+  CheckSpelling On
+</IfModule>
+
+#Allow compression
+<ifModule mod_php4.c>
+php_value zlib.output_compression 16386
+</ifModule>
+
+#Deny access to htaccess
+<Files ~ "^\.ht">
+Order allow,deny
+Deny from all
+Satisfy All
+</Files>
+
+# compress text, html, javascript, css, xml:
+AddOutputFilterByType DEFLATE text/plain
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/xml
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE application/xml
+AddOutputFilterByType DEFLATE application/xhtml+xml
+AddOutputFilterByType DEFLATE application/rss+xml
+AddOutputFilterByType DEFLATE application/javascript
+AddOutputFilterByType DEFLATE application/x-javascript
+
+#Enable SSI
+AddType text/html .html
+AddType text/html .shtml
+AddHandler server-parsed .html
+AddHandler server-parsed .shtml
+AddType application/x-shockwave-flash .swf
+AddType video/x-flv .flv
+AddType image/x-icon .ico
+
+#Instruct browser to downlaod multimedia
+AddType application/octet-stream .avi
+AddType application/octet-stream .mpg
+AddType application/octet-stream .wmv
+AddType application/octet-stream .mp3
+AddType application/octet-stream .pdf
+AddType application/octet-stream .docx

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>Add New Supervisor - Unilorin Project Finder</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <!-- CSS -->
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=PT+Sans:400,700'>
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Oleo+Script:400,700'>
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="header">
+            <div class="container">
+                <div class="row">
+                    <div class="logo span4">
+                        <h1><a href="">Unilorin Project <span class="red">Finder</span></a></h1>
+                    </div>
+                    <div class="links span8">
+                        <a class="home" href="index.html" rel="tooltip" data-placement="bottom" data-original-title="Home"></a>
+                        <a class="blog" href="add-supervisor.html" rel="tooltip" data-placement="bottom" data-original-title=" Admin"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="register-container container">
+            <div class="row">
+                <div id="messageBox"></div>
+                <div class="login span6">
+                    <form id="data" action="REST/add-supervisor.php" method="post" enctype="multipart/form-data">
+                        <h2> ADD <span class="red"><strong>SUPERVISOR</strong></span>  </h2>
+                        <label for="name">Supervisor Name</label>
+                        <input type="text" id="name" name="name" placeholder="enter supervisor full name..." required="required">
+                        <label for="id">Supervisor Email</label>
+                        <input type="email" id="id" name="id" placeholder="enter supervisor email..." required="required">
+                        <label for="department">Department</label>
+                        <select name="department" id="department" class="span5" required="required">
+                            <option value="">Select your department </option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Electrical and Electronics Engineering">Electrical/Electronics Engineering</option>
+                            <option value="Accounting">Accounting</option>
+                        </select>
+                        <label for="password">Supervisor Password</label>
+                        <input type="text" id="password" name="password" placeholder="enter superviosor's password..." required="required">
+                        <label for="admin">Administrator ID</label>
+                        <input type="password" id="admin" name="admin" placeholder="enter your id ..." required="required">
+                        
+                        <button type="submit">Add Supervisor</button>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+        <footer>
+            <div class="header">
+                <div class="container">
+                    <div class="row">
+                        <div class="text-success">
+                            &copy; Copyright 2015. <a href="https://www.facebook.com/hrdultimate" target='_blank'>Amoo Haruna Babatunde</a> <a href="#" class="footer-up" style='float:right'>&DoubleUpArrow;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.8.2.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
+        <script>
+        $(document).ready(function(){
+            $("form#data").submit(function(e){ 
+                e.stopPropagation();
+                e.preventDefault();
+                
+                var formData = new FormData($(this)[0]);
+                $.ajax({
+                    url: $(this).attr("action"),
+                    type: 'POST',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    async: false,
+                    success : function(data, status) {
+                        if(data.status == "1"){
+                            $("#messageBox").html('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>'+data.msg+'</div>');
+                        }
+                        else {
+                            $("#messageBox").html('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">&times;</button>Supervisor registration  failed. '+data.msg+'</div>');
+                        }
+                    },
+                    error : function(xhr, status) {
+                        erroMsg = '';
+                        if(xhr.status===0){ erroMsg = 'There is a problem connecting to internet. Please review your internet connection.'; }
+                        else if(xhr.status===404){ erroMsg = 'Requested page not found.'; }
+                        else if(xhr.status===500){ erroMsg = 'Internal Server Error.';}
+                        else if(status==='parsererror'){ erroMsg = 'Error. Parsing JSON Request failed.'; }
+                        else if(status==='timeout'){  erroMsg = 'Request Time out.';}
+                        else { erroMsg = 'Unknow Error.\n'+xhr.responseText;}          
+                        
+                        $("#messageBox").html('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">&times;</button>Supervisor registration  failed. '+erroMsg+'</div>');
+                    },
+                    processData: false
+                });
+                return false;
+            });
+        });
+       
+        </script>
+
+    </body>
+
+</html>
+
